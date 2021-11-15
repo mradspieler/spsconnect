@@ -19,13 +19,13 @@ func main() {
 
 	flag.Parse()
 
-	spsAddr, err := rfc1006.ResolveTOSIAddr("tosi", *sps+":"+strconv.Itoa(*sport)+":"+*rtsap)
+	spsAddr, err := tosi.ResolveTOSIAddr("tosi", *sps+":"+strconv.Itoa(*sport)+":"+*rtsap)
 	if err != nil {
 		errorf("1 - Resolve PLC address not possible: %v", err)
 	}
 
 	if *host == "" && *lport == -1 && *ltsap == "" {
-		conn, err := rfc1006.DialTOSI("tosi", nil, spsAddr)
+		conn, err := tosi.DialTOSI("tosi", nil, spsAddr)
 		if err != nil {
 			errorf("2 - Connect to PLC not possible: %v", err)
 		}
@@ -33,11 +33,11 @@ func main() {
 	}
 
 	if *host != "" && *lport != -1 && *ltsap != "" {
-		locAddr, err := rfc1006.ResolveTOSIAddr("tosi", *host+":"+strconv.Itoa(*lport)+":"+*ltsap)
+		locAddr, err := tosi.ResolveTOSIAddr("tosi", *host+":"+strconv.Itoa(*lport)+":"+*ltsap)
 		if err != nil {
 			errorf("3 - Resolve PLC address not possible: %v", err)
 		}
-		conn, err := rfc1006.DialTOSI("tosi", locAddr, spsAddr)
+		conn, err := tosi.DialTOSI("tosi", locAddr, spsAddr)
 		if err != nil {
 			errorf("4 - Connect to PLC not possible: %v", err)
 		}
@@ -46,9 +46,9 @@ func main() {
 	}
 
 	if *host == "" && *lport == -1 && *ltsap != "" {
-		locAddr := &rfc1006.TOSIAddr{}
+		locAddr := &tosi.TOSIAddr{}
 		locAddr.TSel = []byte(*ltsap)
-		conn, err := rfc1006.DialTOSI("tosi", locAddr, spsAddr)
+		conn, err := tosi.DialTOSI("tosi", locAddr, spsAddr)
 		if err != nil {
 			errorf("3 - Connect to PLC not possible: %v", err)
 		}
