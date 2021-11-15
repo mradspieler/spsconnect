@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"bmw.com/mradspieler/spsconnect/rfc1006"
+	"github.com/mradspieler/tosi"
 )
 
 func main() {
